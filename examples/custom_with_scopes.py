@@ -5,11 +5,10 @@ from fastapi import FastAPI
 from starlette.authentication import requires
 from starlette.requests import Request
 
-from fastapi_auth.middleware import AuthMiddleware, FastAPIUser
+from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
 
 
 def verify_authorization_header(auth_header: str) -> Tuple[List[str], FastAPIUser]:
-    # Do some fancy OAuth2 stuff
     scopes = ["admin"]
     user = FastAPIUser(first_name="Yannic", last_name="Schröer", user_id=1)
     return scopes, user
