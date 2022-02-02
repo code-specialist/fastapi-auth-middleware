@@ -1,7 +1,7 @@
 from typing import Tuple, List
 import uvicorn
 from fastapi import FastAPI
-from starlette.authentication import requires
+
 from starlette.requests import Request
 
 from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
