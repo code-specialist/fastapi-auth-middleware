@@ -41,7 +41,7 @@ class FastAPIUser(BaseUser):
         return self.user_id
 
 
-class FastAPIAuth(AuthenticationBackend):
+class FastAPIAuthBackend(AuthenticationBackend):
     """ Auth Backend for FastAPI """
 
     def __init__(self, verify_authorization_header: callable):
@@ -79,6 +79,7 @@ def AuthMiddleware(app: FastAPI, verify_authorization_header: callable):
         verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser
 
     Examples:
+        ```python
         def verify_authorization_header(auth_header: str) -> Tuple[List[str], FastAPIUser]:
             scopes = ["admin"]
             user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)
@@ -86,5 +87,6 @@ def AuthMiddleware(app: FastAPI, verify_authorization_header: callable):
 
         app = FastAPI()
         app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
+        ```
     """
-    return AuthenticationMiddleware(app, backend=FastAPIAuth(verify_authorization_header))
+    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_authorization_header))

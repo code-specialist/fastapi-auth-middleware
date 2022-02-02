@@ -1,1 +1,51 @@
-site_name: My Docs
+site_name: FastAPI Auth Middleware
+site_description: "Python Package: FastAPI Auth Middleware"
+site_author: Jonas Scholl, Yannic Schröer
+repo_url: https://github.com/code-specialist/fastapi-auth-middleware
+repo_name: fastapi-auth-middleware
+
+theme:
+  name: material
+  locale: en
+  highlightjs: true
+  favicon: ./img/favicon.svg
+  logo: ./img/logo.png
+  hljs_languages:
+    - yaml
+    - python
+    - bash
+    - shell
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  font:
+    text: Nunito Sans
+    code: IBM Plex Mono
+
+
+plugins:
+- search
+- mkdocstrings
+
+extra_css:
+  - ./css/styles.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/specialist_code/
+      name: Code Specialist on Instagram
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UCjdmChf65sGfOqWoygzBTyQ
+      name: Code Specialist on YouTube
+    - icon: fontawesome/brands/github
+      link: https://github.com/code-specialist
+      name: Code Specialist on GitHub
+
+copyright: Copyright &copy; 2021 Code Specialist | <a href="https://code-specialist.com/legal-notice/">Legal Notice</a>
