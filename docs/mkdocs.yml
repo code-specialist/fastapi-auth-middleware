@@ -28,6 +28,26 @@ theme:
     text: Nunito Sans
     code: IBM Plex Mono
 
+nav:
+  - Introduction: ./README.md
+  - API Reference: ./api-reference.md
+  - Examples:
+    - Basic: ./examples/index.md
+    - Basic with Scopes: ./examples/simple_with_scopes.md
+    - Protected and Unprotected endpoints: ./examples/multiple.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.snippets
+  - toc:
+      permalink:
+  - admonition
+  - attr_list
+  - def_list
+  - abbr
+  - pymdownx.snippets
 
 plugins:
 - search
