@@ -12,19 +12,19 @@
         <meta name="author" content="Jonas Scholl, Yannic Schröer">
       
       
-      <link rel="icon" href="/./img/favicon.svg">
+      <link rel="icon" href="../img/favicon.svg">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.9">
     
     
       
-        <title>FastAPI Auth Middleware</title>
+        <title>Basic - FastAPI Auth Middleware</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.2b4465f4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2b4465f4.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
         
       
     
@@ -38,11 +38,11 @@
       
     
     
-      <link rel="stylesheet" href="/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/./css/styles.css">
+      <link rel="stylesheet" href="../css/styles.css">
     
-    <script>__md_scope=new URL("/",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -69,6 +69,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#basic-example" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -79,9 +84,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="FastAPI Auth Middleware" class="md-header__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
+    <a href=".." title="FastAPI Auth Middleware" class="md-header__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
       
-  <img src="/./img/logo.png" alt="logo">
+  <img src="../img/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -97,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Basic
             
           </span>
         </div>
@@ -198,9 +203,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="FastAPI Auth Middleware" class="md-nav__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
+    <a href=".." title="FastAPI Auth Middleware" class="md-nav__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
       
-  <img src="/./img/logo.png" alt="logo">
+  <img src="../img/logo.png" alt="logo">
 
     </a>
     FastAPI Auth Middleware
@@ -228,7 +233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/./README.md" class="md-nav__link">
+      <a href="../README.md" class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -243,7 +248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/api-reference/" class="md-nav__link">
+      <a href="../api-reference/" class="md-nav__link">
         API Reference
       </a>
     </li>
@@ -256,12 +261,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -282,11 +289,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/examples/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Basic
       </a>
+      
     </li>
   
 
@@ -298,7 +315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/simple_with_scopes/" class="md-nav__link">
+      <a href="simple_with_scopes/" class="md-nav__link">
         Basic with Scopes
       </a>
     </li>
@@ -312,7 +329,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/examples/multiple/" class="md-nav__link">
+      <a href="multiple/" class="md-nav__link">
         Protected and Unprotected endpoints
       </a>
     </li>
@@ -333,12 +350,64 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
-  <h1>404 - Not found</h1>
+                
+<a href="https://github.com/code-specialist/fastapi-auth-middleware/edit/master/docs/examples/index.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
 
+
+<h1 id="basic-example">Basic example</h1>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
+<span class="kn">import</span> <span class="nn">uvicorn</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">starlette.requests</span> <span class="kn">import</span> <span class="n">Request</span>
+
+<span class="kn">from</span> <span class="nn">fastapi_auth_middleware</span> <span class="kn">import</span> <span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">FastAPIUser</span>
+
+
+<span class="c1"># The method you have to provide</span>
+<span class="k">def</span> <span class="nf">verify_authorization_header</span><span class="p">(</span><span class="n">auth_header</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">FastAPIUser</span><span class="p">]:</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">FastAPIUser</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Specialist&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Usually you would decode the JWT here and verify its signature to extract the &#39;sub&#39;</span>
+    <span class="n">scopes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the &#39;sub&#39; somewhere</span>
+    <span class="k">return</span> <span class="n">scopes</span><span class="p">,</span> <span class="n">user</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="o">=</span><span class="n">verify_authorization_header</span><span class="p">)</span>  <span class="c1"># Add the middleware with your verification method to the whole application</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>  <span class="c1"># Sample endpoint (secured)</span>
+<span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;simple:app&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>  <span class="c1"># Starts the uvicorn ASGI</span>
+</code></pre></div>
+
+              
             </article>
           </div>
         </div>
@@ -346,6 +415,41 @@
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../api-reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: API Reference" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              API Reference
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="simple_with_scopes/" class="md-footer__link md-footer__link--next" aria-label="Next: Basic with Scopes" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Basic with Scopes
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -393,10 +497,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "/", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "/assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="/assets/javascripts/bundle.960e086b.min.js"></script>
+      <script src="../assets/javascripts/bundle.960e086b.min.js"></script>
       
     
   </body>
