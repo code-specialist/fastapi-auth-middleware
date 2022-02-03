@@ -34,15 +34,14 @@ from fastapi_auth_middleware import FastAPIUser
 from starlette.authentication import BaseUser
 
 ...
-
-
-def verify_authorization_header(auth_header: str) -> Tuple[List[str], BaseUser]:
+# Takes a string that will look like 'Bearer eyJhbGc...'
+def verify_authorization_header(auth_header: str) -> Tuple[List[str], BaseUser]: # Returns a Tuple of a List of scopes (string) and a BaseUser
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)  # Usually you would decode the JWT here and verify its signature to extract the 'sub'
     scopes = []  # You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the 'sub' somewhere
     return scopes, user
 ```
 
-This function is then included as an argument when adding the middleware to the app.
+This function is then included as an keyword argument when adding the middleware to the app.
 
 ```python
 from fastapi import FastAPI
@@ -54,14 +53,13 @@ app = FastAPI()
 app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
 ```
 
-After adding this middleware, all requests will pass the `verify_authorization_header` function and contain the scopes as well as the user object as injected dependencies. You may
-then verify users posses the required scopes with `requires`:
+After adding this middleware, all requests will pass the `verify_authorization_header` function and contain the **scopes** as well as the **user object** as injected dependencies.
+All requests now pass the `verify_authorization_header` method. You may also verify that users posses scopes with `requires`:
 
 ```python
 from starlette.authentication import requires
 
 ...
-
 
 @app.get("/")
 @requires(["admin"])  # Will result in an HTTP 401 if the scope is not matched
@@ -69,13 +67,12 @@ def some_endpoint():
     ...
 ```
 
-You are also able to use the user object you injected on the `request` object:
+You are also able to use the `user` object you injected on the `request` object:
 
 ```python
 from starlette.requests import Request
 
 ...
-
 
 @app.get('/')
 def home(request: Request):
