@@ -17,7 +17,7 @@
     
     
       
-        <title>Protected and Unprotected endpoints - FastAPI Auth Middleware</title>
+        <title>Middleware - FastAPI Auth Middleware</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#protected-and-unprotected-endpoints" class="md-skip">
+        <a href="#authmiddleware" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Protected and Unprotected endpoints
+              Middleware
             
           </span>
         </div>
@@ -246,16 +246,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
@@ -278,7 +276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../examples/" class="md-nav__link">
         Basic
       </a>
     </li>
@@ -292,7 +290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../simple_with_scopes/" class="md-nav__link">
+      <a href="../../examples/simple_with_scopes/" class="md-nav__link">
         Basic with Scopes
       </a>
     </li>
@@ -304,21 +302,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../examples/multiple/" class="md-nav__link">
         Protected and Unprotected endpoints
       </a>
-      
     </li>
   
 
@@ -336,14 +324,16 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -364,11 +354,52 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../api-reference/auth-middleware/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Middleware
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Middleware
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.AuthMiddleware" class="md-nav__link">
+    fastapi_auth_middleware.middleware.AuthMiddleware
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -380,7 +411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api-reference/auth-backend/" class="md-nav__link">
+      <a href="../auth-backend/" class="md-nav__link">
         Backend
       </a>
     </li>
@@ -394,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../api-reference/user/" class="md-nav__link">
+      <a href="../user/" class="md-nav__link">
         User
       </a>
     </li>
@@ -428,6 +459,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.AuthMiddleware" class="md-nav__link">
+    fastapi_auth_middleware.middleware.AuthMiddleware
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -438,56 +484,84 @@
             <article class="md-content__inner md-typeset">
               
                 
-<a href="https://github.com/code-specialist/fastapi-auth-middleware/edit/master/docs/examples/multiple.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/code-specialist/fastapi-auth-middleware/edit/master/docs/api-reference/auth-middleware.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
 
-<h1 id="protected-and-unprotected-endpoints">Protected and Unprotected Endpoints</h1>
-<p>Currently, there is no support for router level middleware in FastAPI. However, Starlette currently shifts
-toward <a href="https://github.com/encode/starlette/pull/1464">supporting this feature</a> and may support it soon. Once Starlette includes this and FastAPI adopts it, there will be a more
-elegant solution to this. But the current solution is to mount multiple apps instead of routers:</p>
-<p><strong>multiple.py</strong></p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">uvicorn</span>
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
-<span class="kn">from</span> <span class="nn">starlette.requests</span> <span class="kn">import</span> <span class="n">Request</span>
-
-<span class="kn">from</span> <span class="nn">fastapi_auth_middleware</span> <span class="kn">import</span> <span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">FastAPIUser</span>
+<h1 id="authmiddleware">AuthMiddleware</h1>
 
 
-<span class="c1"># The method you have to provide</span>
-<span class="k">def</span> <span class="nf">verify_authorization_header</span><span class="p">(</span><span class="n">auth_header</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">FastAPIUser</span><span class="p">]:</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">FastAPIUser</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Specialist&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Usually you would decode the JWT here and verify its signature to extract the &#39;sub&#39;</span>
-    <span class="n">scopes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;admin&quot;</span><span class="p">]</span>  <span class="c1"># You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the &#39;sub&#39; somewhere</span>
+  <div class="doc doc-object doc-function">
+
+<a id="fastapi_auth_middleware.middleware.AuthMiddleware"></a>
+    <div class="doc doc-contents first">
+
+      <p>Factory method, returning an AuthenticationMiddleware
+Intentionally not named with lower snake case convention as this is a factory method returning a class. Should feel like a class.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>app</code></td>
+        <td><code>FastAPI</code></td>
+        <td><p>The FastAPI instance the middleware should be applied to. The <code>add_middleware</code> function of FastAPI adds the app as first argument by default.</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>verify_authorization_header</code></td>
+        <td><code>callable</code></td>
+        <td><p>A function handle that returns a list of scopes and a BaseUser</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Examples:</strong></p>
+    <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">verify_authorization_header</span><span class="p">(</span><span class="n">auth_header</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">FastAPIUser</span><span class="p">]:</span>
+    <span class="n">scopes</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;admin&quot;</span><span class="p">]</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">FastAPIUser</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Specialist&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">scopes</span><span class="p">,</span> <span class="n">user</span>
 
-
-<span class="n">users_app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-<span class="n">users_app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="o">=</span><span class="n">verify_authorization_header</span><span class="p">)</span>  <span class="c1"># Add the middleware with your verification method to the whole application</span>
-
-
-<span class="nd">@users_app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>  <span class="c1"># Sample endpoint (secured)</span>
-<span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>  <span class="c1"># Returns the user object that is injected into the request. The FastAPIUser in this case</span>
-
-
-<span class="n">public_app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-
-
-<span class="nd">@public_app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">)</span>  <span class="c1"># Sample endpoint (not secured)</span>
-<span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s1">&#39;Hello World&#39;</span>
-
-
 <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-<span class="n">app</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/user&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">users_app</span><span class="p">)</span>  <span class="c1"># Expects an authorization header, due to the auth middleware</span>
-<span class="n">app</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">=</span><span class="n">public_app</span><span class="p">)</span>  <span class="c1"># Does not use any middleware</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;multiple:app&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>  <span class="c1"># Starts the uvicorn ASGI</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="o">=</span><span class="n">verify_authorization_header</span><span class="p">)</span>
 </code></pre></div>
-<p>This will result in an protected endpoint at <code>http:localhost:8080/user/</code> and an unprotected one at  <code>http:localhost:8080/home/</code>.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>fastapi_auth_middleware/middleware.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">AuthMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Factory method, returning an AuthenticationMiddleware</span>
+<span class="sd">    Intentionally not named with lower snake case convention as this is a factory method returning a class. Should feel like a class.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        app (FastAPI): The FastAPI instance the middleware should be applied to. The `add_middleware` function of FastAPI adds the app as first argument by default.</span>
+<span class="sd">        verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        ```python</span>
+<span class="sd">        def verify_authorization_header(auth_header: str) -&gt; Tuple[List[str], FastAPIUser]:</span>
+<span class="sd">            scopes = [&quot;admin&quot;]</span>
+<span class="sd">            user = FastAPIUser(first_name=&quot;Code&quot;, last_name=&quot;Specialist&quot;, user_id=1)</span>
+<span class="sd">            return scopes, user</span>
+
+<span class="sd">        app = FastAPI()</span>
+<span class="sd">        app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)</span>
+<span class="sd">        ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">AuthenticationMiddleware</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">FastAPIAuthBackend</span><span class="p">(</span><span class="n">verify_authorization_header</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
 
               
             </article>
@@ -501,7 +575,7 @@ elegant solution to this. But the current solution is to mount multiple apps ins
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../simple_with_scopes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Basic with Scopes" rel="prev">
+        <a href="../../examples/multiple/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Protected and Unprotected endpoints" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -510,20 +584,20 @@ elegant solution to this. But the current solution is to mount multiple apps ins
               <span class="md-footer__direction">
                 Previous
               </span>
-              Basic with Scopes
+              Protected and Unprotected endpoints
             </div>
           </div>
         </a>
       
       
         
-        <a href="../../api-reference/auth-middleware/" class="md-footer__link md-footer__link--next" aria-label="Next: Middleware" rel="next">
+        <a href="../auth-backend/" class="md-footer__link md-footer__link--next" aria-label="Next: Backend" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Middleware
+              Backend
             </div>
           </div>
           <div class="md-footer__button md-icon">
