@@ -31,7 +31,7 @@ theme:
     - navigation.sections
 
 nav:
-  - Introduction: ./introduction.md
+  - Introduction: ./index.md
   - Examples:
     - Basic: ./examples/index.md
     - Basic with Scopes: ./examples/simple_with_scopes.md

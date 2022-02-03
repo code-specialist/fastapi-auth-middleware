@@ -12,19 +12,19 @@
         <meta name="author" content="Jonas Scholl, Yannic Schröer">
       
       
-      <link rel="icon" href="../img/favicon.svg">
+      <link rel="icon" href="../../img/favicon.svg">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.9">
     
     
       
-        <title>Basic - FastAPI Auth Middleware</title>
+        <title>Backend - FastAPI Auth Middleware</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.2b4465f4.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.2b4465f4.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
         
       
     
@@ -38,11 +38,11 @@
       
     
     
-      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="../css/styles.css">
+      <link rel="stylesheet" href="../../css/styles.css">
     
-    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#basic-example" class="md-skip">
+        <a href="#authbackend" class="md-skip">
           Skip to content
         </a>
       
@@ -84,9 +84,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="FastAPI Auth Middleware" class="md-header__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
+    <a href="../.." title="FastAPI Auth Middleware" class="md-header__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
       
-  <img src="../img/logo.png" alt="logo">
+  <img src="../../img/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Basic
+              Backend
             
           </span>
         </div>
@@ -203,9 +203,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="FastAPI Auth Middleware" class="md-nav__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
+    <a href="../.." title="FastAPI Auth Middleware" class="md-nav__button md-logo" aria-label="FastAPI Auth Middleware" data-md-component="logo">
       
-  <img src="../img/logo.png" alt="logo">
+  <img src="../../img/logo.png" alt="logo">
 
     </a>
     FastAPI Auth Middleware
@@ -233,7 +233,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -246,16 +246,14 @@
 
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
@@ -276,21 +274,11 @@
               
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../examples/" class="md-nav__link">
         Basic
       </a>
-      
     </li>
   
 
@@ -302,7 +290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="simple_with_scopes/" class="md-nav__link">
+      <a href="../../examples/simple_with_scopes/" class="md-nav__link">
         Basic with Scopes
       </a>
     </li>
@@ -316,7 +304,7 @@
   
   
     <li class="md-nav__item">
-      <a href="multiple/" class="md-nav__link">
+      <a href="../../examples/multiple/" class="md-nav__link">
         Protected and Unprotected endpoints
       </a>
     </li>
@@ -336,14 +324,16 @@
 
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       
       
@@ -366,7 +356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api-reference/auth-middleware/" class="md-nav__link">
+      <a href="../auth-middleware/" class="md-nav__link">
         Middleware
       </a>
     </li>
@@ -378,11 +368,66 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../api-reference/auth-backend/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Backend
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Backend
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend" class="md-nav__link">
+    fastapi_auth_middleware.middleware.FastAPIAuthBackend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend.authenticate" class="md-nav__link">
+    authenticate()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -394,7 +439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api-reference/user/" class="md-nav__link">
+      <a href="../user/" class="md-nav__link">
         User
       </a>
     </li>
@@ -428,6 +473,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend" class="md-nav__link">
+    fastapi_auth_middleware.middleware.FastAPIAuthBackend
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fastapi_auth_middleware.middleware.FastAPIAuthBackend.authenticate" class="md-nav__link">
+    authenticate()
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -438,39 +512,202 @@
             <article class="md-content__inner md-typeset">
               
                 
-<a href="https://github.com/code-specialist/fastapi-auth-middleware/edit/master/docs/examples/index.md" title="Edit this page" class="md-content__button md-icon">
+<a href="https://github.com/code-specialist/fastapi-auth-middleware/edit/master/docs/api-reference/auth-backend.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
 
 
-<h1 id="basic-example">Basic example</h1>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">import</span> <span class="nn">uvicorn</span>
-<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
-<span class="kn">from</span> <span class="nn">starlette.requests</span> <span class="kn">import</span> <span class="n">Request</span>
-
-<span class="kn">from</span> <span class="nn">fastapi_auth_middleware</span> <span class="kn">import</span> <span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">FastAPIUser</span>
+<h1 id="authbackend">AuthBackend</h1>
 
 
-<span class="c1"># The method you have to provide</span>
-<span class="k">def</span> <span class="nf">verify_authorization_header</span><span class="p">(</span><span class="n">auth_header</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">FastAPIUser</span><span class="p">]:</span>
-    <span class="n">user</span> <span class="o">=</span> <span class="n">FastAPIUser</span><span class="p">(</span><span class="n">first_name</span><span class="o">=</span><span class="s2">&quot;Code&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="o">=</span><span class="s2">&quot;Specialist&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># Usually you would decode the JWT here and verify its signature to extract the &#39;sub&#39;</span>
-    <span class="n">scopes</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the &#39;sub&#39; somewhere</span>
-    <span class="k">return</span> <span class="n">scopes</span><span class="p">,</span> <span class="n">user</span>
+  <div class="doc doc-object doc-class">
 
+<a id="fastapi_auth_middleware.middleware.FastAPIAuthBackend"></a>
+    <div class="doc doc-contents first">
 
-<span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-<span class="n">app</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span><span class="n">AuthMiddleware</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="o">=</span><span class="n">verify_authorization_header</span><span class="p">)</span>  <span class="c1"># Add the middleware with your verification method to the whole application</span>
+      <p>Auth Backend for FastAPI </p>
 
+        <details class="quote">
+          <summary>Source code in <code>fastapi_auth_middleware/middleware.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">FastAPIAuthBackend</span><span class="p">(</span><span class="n">AuthenticationBackend</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Auth Backend for FastAPI &quot;&quot;&quot;</span>
 
-<span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>  <span class="c1"># Sample endpoint (secured)</span>
-<span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Auth Backend constructor. Part of an AuthenticationMiddleware as backend.</span>
 
+<span class="sd">        Args:</span>
+<span class="sd">            verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verify_authorization_header</span> <span class="o">=</span> <span class="n">verify_authorization_header</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="s1">&#39;simple:app&#39;</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&quot;0.0.0.0&quot;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>  <span class="c1"># Starts the uvicorn ASGI</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">:</span> <span class="n">HTTPConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">AuthCredentials</span><span class="p">,</span> <span class="n">BaseUser</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot; The &#39;magic&#39; happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            conn (HTTPConnection): An HTTP connection by FastAPI/Starlette</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple[AuthCredentials, BaseUser]: A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="s2">&quot;Authorization&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;Authorization header missing&quot;</span><span class="p">)</span>
+
+        <span class="n">authorization_header</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span>
+        <span class="n">scopes</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_authorization_header</span><span class="p">(</span><span class="n">authorization_header</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">AuthCredentials</span><span class="p">(</span><span class="n">scopes</span><span class="o">=</span><span class="n">scopes</span><span class="p">),</span> <span class="n">user</span>
 </code></pre></div>
+        </details>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="fastapi_auth_middleware.middleware.FastAPIAuthBackend.__init__" class="doc doc-heading">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Auth Backend constructor. Part of an AuthenticationMiddleware as backend.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>verify_authorization_header</code></td>
+        <td><code>callable</code></td>
+        <td><p>A function handle that returns a list of scopes and a BaseUser</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>fastapi_auth_middleware/middleware.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verify_authorization_header</span><span class="p">:</span> <span class="n">callable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Auth Backend constructor. Part of an AuthenticationMiddleware as backend.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">verify_authorization_header</span> <span class="o">=</span> <span class="n">verify_authorization_header</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h2 id="fastapi_auth_middleware.middleware.FastAPIAuthBackend.authenticate" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-async"><code>async</code></small>
+  </span>
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>The 'magic' happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>conn</code></td>
+        <td><code>HTTPConnection</code></td>
+        <td><p>An HTTP connection by FastAPI/Starlette</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>Tuple[AuthCredentials, BaseUser]</code></td>
+      <td><p>A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser</p></td>
+    </tr>
+  </tbody>
+</table>
+        <details class="quote">
+          <summary>Source code in <code>fastapi_auth_middleware/middleware.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">authenticate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">:</span> <span class="n">HTTPConnection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">AuthCredentials</span><span class="p">,</span> <span class="n">BaseUser</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot; The &#39;magic&#39; happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        conn (HTTPConnection): An HTTP connection by FastAPI/Starlette</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple[AuthCredentials, BaseUser]: A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;Authorization&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">conn</span><span class="o">.</span><span class="n">headers</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AuthenticationError</span><span class="p">(</span><span class="s2">&quot;Authorization header missing&quot;</span><span class="p">)</span>
+
+    <span class="n">authorization_header</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s2">&quot;Authorization&quot;</span><span class="p">]</span>
+    <span class="n">scopes</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_authorization_header</span><span class="p">(</span><span class="n">authorization_header</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">AuthCredentials</span><span class="p">(</span><span class="n">scopes</span><span class="o">=</span><span class="n">scopes</span><span class="p">),</span> <span class="n">user</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
 
               
             </article>
@@ -484,7 +721,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Introduction" rel="prev">
+        <a href="../auth-middleware/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Middleware" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -493,20 +730,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Introduction
+              Middleware
             </div>
           </div>
         </a>
       
       
         
-        <a href="simple_with_scopes/" class="md-footer__link md-footer__link--next" aria-label="Next: Basic with Scopes" rel="next">
+        <a href="../user/" class="md-footer__link md-footer__link--next" aria-label="Next: User" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Basic with Scopes
+              User
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -562,10 +799,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.22074ed6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.sections"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.22074ed6.min.js"}</script>
     
     
-      <script src="../assets/javascripts/bundle.960e086b.min.js"></script>
+      <script src="../../assets/javascripts/bundle.960e086b.min.js"></script>
       
     
   </body>
