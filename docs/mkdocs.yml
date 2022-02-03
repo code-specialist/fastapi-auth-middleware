@@ -27,14 +27,19 @@ theme:
   font:
     text: Nunito Sans
     code: IBM Plex Mono
+  features:
+    - navigation.sections
 
 nav:
-  - Introduction: ./README.md
-  - API Reference: ./api-reference.md
+  - Introduction: ./introduction.md
   - Examples:
     - Basic: ./examples/index.md
     - Basic with Scopes: ./examples/simple_with_scopes.md
     - Protected and Unprotected endpoints: ./examples/multiple.md
+  - API Reference:
+    - Middleware: ./api-reference/auth-middleware.md
+    - Backend: ./api-reference/auth-backend.md
+    - User: ./api-reference/user.md
 
 markdown_extensions:
   - pymdownx.highlight
