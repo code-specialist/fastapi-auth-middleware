@@ -32,3 +32,9 @@ jobs:
         working-directory: ./tests
         run: |
           pytest
+
+      - name: CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./tests/coverage.xml
+          fail_ci_if_error: true

@@ -1,5 +1,12 @@
 # FastAPI Auth Middleware
 
+[![codecov](https://codecov.io/gh/code-specialist/fastapi-auth-middleware/branch/main/graph/badge.svg?token=JS7C57FCCD)](https://codecov.io/gh/code-specialist/fastapi-auth-middleware)
+![CodeFactor](https://www.codefactor.io/repository/github/code-specialist/fastapi-auth-middleware/badge)
+![Py3.7](https://img.shields.io/badge/-Python%203.7-brightgreen)
+![Py3.7](https://img.shields.io/badge/-Python%203.8-brightgreen)
+![Py3.7](https://img.shields.io/badge/-Python%203.9-brightgreen)
+![Py3.7](https://img.shields.io/badge/-Python%203.10-brightgreen)
+
 We at [Code Specialist](https://code-specialist.com) love FastAPI for its simplicity and feature-richness. Though we were a bit staggered by the poor documentation and integration
 of auth-concepts. That's why we wrote a **FastAPI Auth Middleware**. It integrates seamlessly into FastAPI applications and requires minimum configuration. It is built
 upon [Starlette](https://www.starlette.io/) and thereby requires **no dependencies** you do not have included anyway.
