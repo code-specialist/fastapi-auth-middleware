@@ -10,8 +10,11 @@ whatever you use, to authenticate your users. In most of the usual cases this wi
 ## Install
 
 ```shell
-pip install fastapi-auth-middleware
+pip install fastapi_auth_middleware
 ```
+
+## Documentation
+More detailed docs are available at [https://fastapi-auth-middleware.code-specialist.com](https://fastapi-auth-middleware.code-specialist.com).
 
 ## Why FastAPI Auth Middlware?
 
@@ -82,4 +85,4 @@ def home(request: Request):
 ## Examples
 
 Various examples on how to use this middleware are available
-at [https://code-specialist.github.io/fastapi-auth-middleware/examples](https://code-specialist.github.io/fastapi-auth-middleware/examples)
+at [https://fastapi-auth-middleware.code-specialist.com/examples](https://fastapi-auth-middleware.code-specialist.com/examples)
