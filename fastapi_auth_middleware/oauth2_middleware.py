@@ -125,7 +125,7 @@ class OAuth2Backend(AuthenticationBackend, ABC):
                 "verify_nbf": False,  # Not Before
                 "verify_iss": False,  # Issuer
                 "verify_aud": False,  # Audience
-            } # Default fallback
+            }  # Default fallback
         else:
             self.decode_token_options = decode_token_options
 
@@ -163,7 +163,6 @@ class OAuth2Backend(AuthenticationBackend, ABC):
 
         return FastAPIUser(user_id=decoded_token.get("sub"), first_name=first_name, last_name=last_name)
 
-    @abstractmethod
     async def authenticate(self, conn: HTTPConnection) -> Tuple[AuthCredentials, BaseUser]:
         """ The authenticate method is invoked each time a route is called that the middleware is applied to.
 
