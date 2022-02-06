@@ -5,6 +5,7 @@ import jwt
 from jwt import ExpiredSignatureError
 from starlette.authentication import AuthenticationBackend, AuthCredentials, AuthenticationError, BaseUser
 from starlette.datastructures import MutableHeaders
+from starlette.exceptions import HTTPException
 from starlette.requests import HTTPConnection
 from starlette.types import ASGIApp, Scope, Receive, Send, Message
 
@@ -16,8 +17,8 @@ class OAuth2Middleware:
     def __init__(
             self,
             app: ASGIApp,
-            get_new_token: callable,
             public_key: str,
+            get_new_token: callable = None,
             get_scopes: callable = None,
             get_user: callable = None,
             decode_token_options: dict = None,
@@ -28,8 +29,8 @@ class OAuth2Middleware:
 
         Args:
             app (ASGIApp): ASGI app, e.g. Starlette/FastAPI instance
-            get_new_token (callable): Function that returns a new token with an old one. Takes an access token as input argument Most likely you have a refresh token stored
-                                      somewhere to renew the token.
+            get_new_token (callable): Optional: Function that returns a new token with an old one. Takes an access token as input argument Most likely you have a refresh token stored
+                                      somewhere to renew the token. Default will not renew the token and raise a HTTP 401 instead.
             public_key (str): Public key of your OAuth2 Service to verify the jwt's signature
             get_scopes (callable): Optional: A method that returns a list of scopes based on a decoded_token input. Default will extract scopes from the token.
             get_user (callable): Optional: A method that returns a user Object based on a decoded_token input. Default will create a basic user from the token.
@@ -48,6 +49,15 @@ class OAuth2Middleware:
             audience=audience,
         )
         self.get_new_token = get_new_token
+
+        if get_new_token is None:
+            self.get_new_token = self._no_renewal
+        else:
+            self.get_new_token = get_new_token
+
+    def _no_renewal(self, _: str):
+        """ Default method for get_new_token. Instead of refreshing the token, this method will raise an HTTPException. """
+        raise HTTPException(status_code=401, detail="Access Token has expired")
 
     async def __call__(
             self,
