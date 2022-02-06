@@ -1,3 +1,4 @@
+import inspect
 from typing import Tuple
 
 from fastapi import FastAPI
@@ -48,9 +49,10 @@ class FastAPIAuthBackend(AuthenticationBackend):
         """ Auth Backend constructor. Part of an AuthenticationMiddleware as backend.
 
         Args:
-            verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser
+            verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser. May be either sync or async.
         """
         self.verify_authorization_header = verify_authorization_header
+        self.verification_is_async = inspect.iscoroutinefunction(verify_authorization_header)
 
     async def authenticate(self, conn: HTTPConnection) -> Tuple[AuthCredentials, BaseUser]:
         """ The 'magic' happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.
@@ -65,7 +67,11 @@ class FastAPIAuthBackend(AuthenticationBackend):
             raise AuthenticationError("Authorization header missing")
 
         authorization_header: str = conn.headers["Authorization"]
-        scopes, user = self.verify_authorization_header(authorization_header)
+
+        if self.verification_is_async:
+            scopes, user = await self.verify_authorization_header(authorization_header)
+        else:
+            scopes, user = self.verify_authorization_header(authorization_header)
 
         return AuthCredentials(scopes=scopes), user
 
