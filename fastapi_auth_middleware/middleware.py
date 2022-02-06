@@ -64,7 +64,7 @@ class FastAPIAuthBackend(AuthenticationBackend):
             Tuple[AuthCredentials, BaseUser]: A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser
         """
         if "Authorization" not in conn.headers:
-            raise AuthenticationError("Authorization header missing")
+            raise AuthenticationError("Your request is missing an 'Authorization' HTTP header")
 
         authorization_header: str = conn.headers["Authorization"]
 

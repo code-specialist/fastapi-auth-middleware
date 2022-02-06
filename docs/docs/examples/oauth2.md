@@ -1,3 +1,6 @@
+# OAuth2
+
+```python
 import uvicorn
 from fastapi import FastAPI
 from starlette.requests import Request
@@ -22,3 +25,4 @@ def home(request: Request):
 
 if __name__ == '__main__':
     uvicorn.run('oauth2:app', host="0.0.0.0", port=8080)  # Starts the uvicorn ASGI
+```

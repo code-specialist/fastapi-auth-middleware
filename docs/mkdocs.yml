@@ -33,13 +33,16 @@ theme:
 nav:
   - Introduction: ./index.md
   - Examples:
-    - Basic: ./examples/index.md
-    - Basic with Scopes: ./examples/simple_with_scopes.md
-    - Protected and Unprotected endpoints: ./examples/multiple.md
+      - Basic: ./examples/index.md
+      - Basic with Scopes: ./examples/simple_with_scopes.md
+      - Protected and Unprotected endpoints: ./examples/multiple.md
+      - OAuth2: ./examples/oauth2.md
+      - OAuth2, auto token renewal: ./examples/oauth2_automatic_renewal.md
   - API Reference:
-    - Middleware: ./api-reference/auth-middleware.md
-    - Backend: ./api-reference/auth-backend.md
-    - User: ./api-reference/user.md
+      - Middleware: ./api-reference/auth-middleware.md
+      - Backend: ./api-reference/auth-backend.md
+      - User: ./api-reference/user.md
+      - OAuth2: ./api-reference/oauth2.md
 
 markdown_extensions:
   - pymdownx.highlight
@@ -55,8 +58,8 @@ markdown_extensions:
   - pymdownx.snippets
 
 plugins:
-- search
-- mkdocstrings
+  - search
+  - mkdocstrings
 
 extra_css:
   - ./css/styles.css

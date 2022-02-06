@@ -1,22 +1,23 @@
-from abc import abstractmethod, ABC
 from typing import Tuple, List
 
-import jwt
-from jwt import ExpiredSignatureError
-from starlette.authentication import AuthenticationBackend, AuthCredentials, AuthenticationError, BaseUser
+from fastapi import FastAPI
+from jose import ExpiredSignatureError
+from jose import jwt
+from starlette.authentication import AuthenticationBackend, AuthCredentials, BaseUser
 from starlette.datastructures import MutableHeaders
-from starlette.exceptions import HTTPException
 from starlette.requests import HTTPConnection
-from starlette.types import ASGIApp, Scope, Receive, Send, Message
+from starlette.responses import PlainTextResponse
+from starlette.types import Scope, Receive, Send, Message
 
 from fastapi_auth_middleware import FastAPIUser
+from fastapi_auth_middleware.exceptions import AuthenticationHeaderMissing, TokenHasExpired
 
 
 class OAuth2Middleware:
 
     def __init__(
             self,
-            app: ASGIApp,
+            app: FastAPI,
             public_key: str,
             get_new_token: callable = None,
             get_scopes: callable = None,
@@ -28,7 +29,7 @@ class OAuth2Middleware:
         """ Constructor if the OAuth2Middleware
 
         Args:
-            app (ASGIApp): ASGI app, e.g. Starlette/FastAPI instance
+            app (FastAPI): FastAPI instance
             get_new_token (callable): Optional: Function that returns a new token with an old one. Takes an access token as input argument Most likely you have a refresh token stored
                                       somewhere to renew the token. Default will not renew the token and raise a HTTP 401 instead.
             public_key (str): Public key of your OAuth2 Service to verify the jwt's signature
@@ -57,7 +58,7 @@ class OAuth2Middleware:
 
     def _no_renewal(self, _: str):
         """ Default method for get_new_token. Instead of refreshing the token, this method will raise an HTTPException. """
-        raise HTTPException(status_code=401, detail="Access Token has expired")
+        raise TokenHasExpired
 
     async def __call__(
             self,
@@ -68,30 +69,50 @@ class OAuth2Middleware:
 
         if scope["type"] not in ["http", "websocket"]:  # Filter for relevant requests
             await self.app(scope, receive, send)  # Bypass
-            return
+            return  # End
 
         connection = HTTPConnection(scope)  # Scoped connection
 
-        try:
+        try:  # to Authenticate
 
             scope["auth"], scope["user"] = await self.backend.authenticate(connection)  # Authentication
             await self.app(scope, receive, send)  # Token is valid
 
-        except ExpiredSignatureError:
+        except AuthenticationHeaderMissing:  # Request has no 'Authorization' HTTP Header
+            response = self.auth_header_missing()
+            await response(scope, receive, send)
+            return  # End
 
-            old_token = connection.headers.get("Authorization")
-            new_token = self.get_new_token(old_token)  # Get a new token
+        except ExpiredSignatureError:  # Token has expired
 
-            async def send_with_new_access_token(message: Message) -> None:
-                if message["type"] == "http.response.start":  # Ensure this isn't called before stack is to be closed
-                    headers = MutableHeaders(scope=message)
-                    headers.append("New-Access-Token", new_token)
-                await send(message)
+            try:
 
-            await self.app(scope, receive, send_with_new_access_token)
+                old_token = connection.headers.get("Authorization")
+                new_token = self.get_new_token(old_token)  # Get a new token
+
+                async def send_with_new_access_token(message: Message) -> None:
+                    if message["type"] == "http.response.start":  # Ensure this isn't called before stack is to be closed
+                        headers = MutableHeaders(scope=message)
+                        headers.append("New-Access-Token", new_token)
+                    await send(message)
+
+                await self.app(scope, receive, send_with_new_access_token)
+
+            except TokenHasExpired:  # No renewal has been set. Raise an exception (HTTP 401) instead
+                response = self.token_has_expired()
+                await response(scope, receive, send)
+                return  # End
+
+    @staticmethod
+    def auth_header_missing(*args, **kwargs):
+        return PlainTextResponse("Your request is missing an 'Authorization' HTTP header", status_code=401)
+
+    @staticmethod
+    def token_has_expired(*args, **kwargs):
+        return PlainTextResponse("Your 'Authorization' HTTP header is invalid", status_code=401)
 
 
-class OAuth2Backend(AuthenticationBackend, ABC):
+class OAuth2Backend(AuthenticationBackend):
     """ OAuth2 Backend """
 
     def __init__(
@@ -99,9 +120,9 @@ class OAuth2Backend(AuthenticationBackend, ABC):
             public_key: str,
             get_scopes: callable,
             get_user: callable,
-            decode_token_options: dict,
             issuer: str,
-            audience: str
+            audience: str,
+            decode_token_options: dict,
     ):
         """
 
@@ -109,10 +130,19 @@ class OAuth2Backend(AuthenticationBackend, ABC):
             public_key (str): Public key of your OAuth2 Service to verify the jwt's signature
             get_scopes (callable): Optional: A method that returns a list of scopes based on a decoded_token input. Default will extract scopes from the token.
             get_user (callable): Optional: A method that returns a user Object based on a decoded_token input. Default will create a basic user from the token.
-            decode_token_options (dict): Optional: A dictionary of decode options. Possible options are: verify_iat, verify_nbf, verify_exp, verify_iss, verify_aud. Default is
-                                         {"verify_exp": True, "verify_iat": True, "verify_nbf": False, "verify_iss": False, "verify_aud": False }
             issuer (str): The issuer of the jwt. Required if the "verify_iss" option is enabled
             audience (str): The audience of the jwt. Required if the "verify_aud" option is enabled
+            decode_token_options (dict): Optional: A dictionary of decode options. Possible options are: verify_iat, verify_nbf, verify_exp, verify_iss, verify_aud. Defaults are:
+                                         {
+                                            "verify_signature": True,  # Signature
+                                            "verify_exp": True,  # Expiry
+                                            "verify_iat": True,  # Issued at
+                                            "verify_nbf": False,  # Not Before
+                                            "verify_iss": False,  # Issuer
+                                            "verify_aud": False,  # Audience
+                                            "verify_jti": False,  # JWT ID
+                                            "verify_at_hash": False,  # Audience
+                                        }
         """
         self.public_key = public_key
         self.issuer = issuer
@@ -130,11 +160,14 @@ class OAuth2Backend(AuthenticationBackend, ABC):
 
         if decode_token_options is None:
             self.decode_token_options = {
+                "verify_signature": True,  # Signature
                 "verify_exp": True,  # Expiry
                 "verify_iat": True,  # Issued at
                 "verify_nbf": False,  # Not Before
                 "verify_iss": False,  # Issuer
                 "verify_aud": False,  # Audience
+                "verify_jti": False,  # JWT ID
+                "verify_at_hash": False,  # Audience
             }  # Default fallback
         else:
             self.decode_token_options = decode_token_options
@@ -183,11 +216,11 @@ class OAuth2Backend(AuthenticationBackend, ABC):
             Tuple[AuthCredentials, BaseUser]: A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser
         """
         if "Authorization" not in conn.headers:
-            raise AuthenticationError("Authorization header missing")
+            raise AuthenticationHeaderMissing
 
         auth_header = conn.headers["Authorization"]
         token = auth_header.split(" ")[-1]  # Generic approach: "Bearer eyJsn..." -> "eyJsn...", "Access Token eyJsn..." -> "eyJsn..."
-        decoded_token = jwt.decode(jwt=token, key=self.public_key, options=self.decode_token_options, audience=self.audience, issuer=self.issuer)
+        decoded_token = jwt.decode(token=token, key=self.public_key, options=self.decode_token_options, audience=self.audience, issuer=self.issuer)
 
         scopes = self.get_scopes(decoded_token)
         user = self.get_user(decoded_token)
