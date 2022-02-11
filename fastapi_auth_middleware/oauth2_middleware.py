@@ -25,6 +25,7 @@ class OAuth2Middleware:
             decode_token_options: dict = None,
             issuer: str = None,
             audience: str = None,
+            algorithms: str or List[str] = 'RS256'
     ):
         """ Constructor if the OAuth2Middleware
 
@@ -48,17 +49,9 @@ class OAuth2Middleware:
             decode_token_options=decode_token_options,
             issuer=issuer,
             audience=audience,
+            algorithms=algorithms
         )
         self.get_new_token = get_new_token
-
-        if get_new_token is None:
-            self.get_new_token = self._no_renewal
-        else:
-            self.get_new_token = get_new_token
-
-    def _no_renewal(self, _: str):
-        """ Default method for get_new_token. Instead of refreshing the token, this method will raise an HTTPException. """
-        raise TokenHasExpired
 
     async def __call__(
             self,
@@ -85,7 +78,12 @@ class OAuth2Middleware:
 
         except ExpiredSignatureError:  # Token has expired
 
-            try:
+            if self.get_new_token is None:  # No renewal has been set. Raise an exception (HTTP 401) instead
+                response = self.token_has_expired()
+                await response(scope, receive, send)
+                return  # End
+
+            else:  # get_new_token method is implemented
 
                 old_token = connection.headers.get("Authorization")
                 new_token = self.get_new_token(old_token)  # Get a new token
@@ -97,11 +95,6 @@ class OAuth2Middleware:
                     await send(message)
 
                 await self.app(scope, receive, send_with_new_access_token)
-
-            except TokenHasExpired:  # No renewal has been set. Raise an exception (HTTP 401) instead
-                response = self.token_has_expired()
-                await response(scope, receive, send)
-                return  # End
 
     @staticmethod
     def auth_header_missing(*args, **kwargs):
@@ -123,6 +116,7 @@ class OAuth2Backend(AuthenticationBackend):
             issuer: str,
             audience: str,
             decode_token_options: dict,
+            algorithms: str or List[str]
     ):
         """
 
@@ -147,6 +141,7 @@ class OAuth2Backend(AuthenticationBackend):
         self.public_key = public_key
         self.issuer = issuer
         self.audience = audience
+        self.algorithms = algorithms
 
         if get_scopes is None:
             self.get_scopes = self._get_scopes  # Default fallback
@@ -183,7 +178,7 @@ class OAuth2Backend(AuthenticationBackend):
             List[str]: List of scopes. Empty list if none set
         """
         try:
-            return decoded_token["scopes"]
+            return decoded_token["scope"].split(" ")
         except KeyError:  # Token does not define any scopes
             return []
 
@@ -220,7 +215,7 @@ class OAuth2Backend(AuthenticationBackend):
 
         auth_header = conn.headers["Authorization"]
         token = auth_header.split(" ")[-1]  # Generic approach: "Bearer eyJsn..." -> "eyJsn...", "Access Token eyJsn..." -> "eyJsn..."
-        decoded_token = jwt.decode(token=token, key=self.public_key, options=self.decode_token_options, audience=self.audience, issuer=self.issuer)
+        decoded_token = jwt.decode(token=token, key=self.public_key, options=self.decode_token_options, audience=self.audience, issuer=self.issuer, algorithms=self.algorithms)
 
         scopes = self.get_scopes(decoded_token)
         user = self.get_user(decoded_token)
