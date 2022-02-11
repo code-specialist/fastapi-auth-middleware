@@ -10,7 +10,7 @@ from starlette.responses import PlainTextResponse
 from starlette.types import Scope, Receive, Send, Message
 
 from fastapi_auth_middleware import FastAPIUser
-from fastapi_auth_middleware.exceptions import AuthenticationHeaderMissing, TokenHasExpired
+from fastapi_auth_middleware.exceptions import AuthenticationHeaderMissing
 
 
 class OAuth2Middleware:
@@ -25,7 +25,7 @@ class OAuth2Middleware:
             decode_token_options: dict = None,
             issuer: str = None,
             audience: str = None,
-            algorithms: str or List[str] = 'RS256'
+            algorithms: str or List[str] = None,
     ):
         """ Constructor if the OAuth2Middleware
 
