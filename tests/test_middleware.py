@@ -1,7 +1,10 @@
+from typing import Callable
+
 from _pytest.fixtures import fixture
 from fastapi import FastAPI
-from starlette.authentication import requires
+from starlette.authentication import requires, AuthenticationError
 from starlette.requests import Request
+from starlette.responses import JSONResponse
 from starlette.testclient import TestClient
 
 from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
@@ -20,10 +23,14 @@ async def verify_authorization_header_basic_admin_scope(auth_header: str):
     return scopes, user
 
 
+def raise_exception_in_verify_authorization_header(_):
+    raise Exception('some auth error occured')
+
+
 #  Sample app with simple routes, takes a verify_authorization_header callable that is applied to the middleware
-def fastapi_app(verify_authorization_header: callable):
+def fastapi_app(verify_authorization_header: Callable, auth_error_handler: Callable = None):
     app = FastAPI()
-    app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
+    app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header, auth_error_handler=auth_error_handler)
 
     @app.get("/")
     def home():
@@ -49,26 +56,44 @@ class TestBasicBehaviour:
     """
 
     @fixture
-    def client(self):
+    def client(self) -> TestClient:
         app = fastapi_app(verify_authorization_header_basic)
         return TestClient(app)
 
     @fixture
-    def client_with_scopes(self):
+    def client_with_scopes(self) -> TestClient:
         app = fastapi_app(verify_authorization_header_basic_admin_scope)
         return TestClient(app)
 
-    def test_home_fail_no_header(self, client):
+    def test_home_fail_no_header(self, client: TestClient):
         assert client.get("/").status_code == 400
 
-    def test_home_succeed(self, client):
+    def test_home_succeed(self, client: TestClient):
         assert client.get("/", headers={"Authorization": "ey.."}).status_code == 200
 
-    def test_user_attributes(self, client):
+    def test_user_attributes(self, client: TestClient):
         request = client.get("/user", headers={"Authorization": "ey.."})
         assert request.status_code == 200
         assert request.content == b'"True Code Specialist 1"'  # b'"{user.is_authenticated} {user.display_name} {user.identity}"'
 
-    def test_scopes(self, client, client_with_scopes):
+    def test_scopes(self, client: TestClient, client_with_scopes: TestClient):
         assert client.get("/admin-scope", headers={"Authorization": "ey.."}).status_code == 403  # Does not contain the requested scope
         assert client_with_scopes.get("/admin-scope", headers={"Authorization": "ey.."}).status_code == 200  # Contains the requested scope
+
+    def test_fail_auth_error(self):
+        app = fastapi_app(verify_authorization_header=raise_exception_in_verify_authorization_header)
+        client_with_auth_error = TestClient(app=app)
+
+        response = client_with_auth_error.get('/', headers={"Authorization": "ey.."})
+        assert response.status_code == 400
+
+    def test_fail_auth_error_with_custom_handler(self):
+        def handle_auth_error(request: Request, exception: AuthenticationError):
+            assert isinstance(exception, AuthenticationError)
+            return JSONResponse(content={'message': str(exception)}, status_code=401)
+
+        app = fastapi_app(verify_authorization_header=raise_exception_in_verify_authorization_header, auth_error_handler=handle_auth_error)
+        client_with_auth_error = TestClient(app=app)
+
+        response = client_with_auth_error.get('/', headers={"Authorization": "ey.."})
+        assert response.status_code == 401
