@@ -2,12 +2,9 @@ from datetime import datetime, timedelta
 
 import pytest
 from _pytest.fixtures import fixture
-from fastapi import FastAPI
 from jose import jwt
-from starlette.authentication import requires, AuthCredentials
-from starlette.requests import Request
 from starlette.testclient import TestClient
-from fastapi_auth_middleware import FastAPIUser, OAuth2Middleware
+
 from tests.basic_fastapi_app import app as basic_app
 from tests.custom_oauth2_fastapi_app import app as oauth2_custom_app
 from tests.keys import PRIVATE_KEY
@@ -80,10 +77,38 @@ class TestOAuth2Middleware:
 
     @pytest.mark.parametrize('client', [basic_client])
     def test_token_expired(self, client, expired_token):
-        response = client.get("/scopes", headers={"Authorization": f"Bearer {expired_token}"})
+        """ Basic client does not have a get_new_token implementation """
+        response = client.get("/", headers={"Authorization": f"Bearer {expired_token}"})
         assert response.status_code == 401
 
     @pytest.mark.parametrize('client', [custom_oauth2_client])
     def test_token_refreshed(self, client, expired_token):
-        response = client.get("/scopes", headers={"Authorization": f"Bearer {expired_token}"})
+        """ The custom oauth2 client does posses a custom get_new_token implementation """
+        response = client.get("/", headers={"Authorization": f"Bearer {expired_token}"})
+        assert response.status_code == 200
+
+    @pytest.mark.parametrize('client', test_clients)
+    def test_token_without_scopes(self, client):
+        token = sign_token({
+            "sub": "1",
+            "iat": datetime.utcnow(),
+            "exp": datetime.utcnow() + timedelta(hours=1),  # Valid for 1 hour
+            "aud": "tests",
+            "iss": "tests",
+            "name": "Code Specialist"
+        })
+        response = client.get("/", headers={"Authorization": f"Bearer {token}"})
+        assert response.status_code == 200
+
+    @pytest.mark.parametrize('client', test_clients)
+    def test_token_without_name(self, client):
+        token = sign_token({
+            "sub": "1",
+            "iat": datetime.utcnow(),
+            "exp": datetime.utcnow() + timedelta(hours=1),  # Valid for 1 hour
+            "aud": "tests",
+            "iss": "tests",
+            "scope": self.sample_scopes
+        })
+        response = client.get("/", headers={"Authorization": f"Bearer {token}"})
         assert response.status_code == 200
