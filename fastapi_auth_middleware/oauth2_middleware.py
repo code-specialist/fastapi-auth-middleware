@@ -15,18 +15,8 @@ from fastapi_auth_middleware.exceptions import AuthenticationHeaderMissing
 
 class OAuth2Middleware:
 
-    def __init__(
-            self,
-            app: FastAPI,
-            public_key: str,
-            get_new_token: callable = None,
-            get_scopes: callable = None,
-            get_user: callable = None,
-            decode_token_options: dict = None,
-            issuer: str = None,
-            audience: str = None,
-            algorithms: str or List[str] = None,
-    ):
+    def __init__(self, app: FastAPI, public_key: str, get_new_token: callable = None, get_scopes: callable = None, get_user: callable = None,
+                 decode_token_options: dict = None, issuer: str = None, audience: str = None, algorithms: str or List[str] = None):
         """ Constructor if the OAuth2Middleware
 
         Args:
@@ -60,8 +50,8 @@ class OAuth2Middleware:
             send: Send
     ):
 
-        if scope["type"] not in ["http", "websocket"]:  # Filter for relevant requests
-            await self.app(scope, receive, send)  # Bypass
+        if scope["type"] not in ["http", "websocket"]:  # pragma nocover # Filter for relevant requests
+            await self.app(scope, receive, send)  # pragma nocover # Bypass
             return  # End
 
         connection = HTTPConnection(scope)  # Scoped connection
@@ -179,7 +169,7 @@ class OAuth2Backend(AuthenticationBackend):
         """
         try:
             return decoded_token["scope"].split(" ")
-        except KeyError:  # Token does not define any scopes
+        except KeyError or AttributeError:  # Token does not define a scope field or the scope is empty
             return []
 
     @staticmethod
