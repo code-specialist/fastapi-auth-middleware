@@ -1,9 +1,10 @@
-from typing import Tuple
+from typing import Tuple, Callable, List
 
 from fastapi import FastAPI
 from starlette.authentication import AuthenticationBackend, AuthCredentials, AuthenticationError, BaseUser
 from starlette.middleware.authentication import AuthenticationMiddleware
-from starlette.requests import HTTPConnection
+from starlette.requests import HTTPConnection, Request
+from starlette.responses import JSONResponse
 
 
 class FastAPIUser(BaseUser):
@@ -44,7 +45,7 @@ class FastAPIUser(BaseUser):
 class FastAPIAuthBackend(AuthenticationBackend):
     """ Auth Backend for FastAPI """
 
-    def __init__(self, verify_authorization_header: callable):
+    def __init__(self, verify_authorization_header: Callable[[str], Tuple[List[str], BaseUser]]):
         """ Auth Backend constructor. Part of an AuthenticationMiddleware as backend.
 
         Args:
@@ -64,19 +65,27 @@ class FastAPIAuthBackend(AuthenticationBackend):
         if "Authorization" not in conn.headers:
             raise AuthenticationError("Authorization header missing")
 
-        authorization_header: str = conn.headers["Authorization"]
-        scopes, user = self.verify_authorization_header(authorization_header)
+        try:
+            authorization_header: str = conn.headers["Authorization"]
+            scopes, user = self.verify_authorization_header(authorization_header)
+        except Exception as exception:
+            raise AuthenticationError(exception) from None
 
         return AuthCredentials(scopes=scopes), user
 
 
-def AuthMiddleware(app: FastAPI, verify_authorization_header: callable):
+def AuthMiddleware(
+        app: FastAPI,
+        verify_authorization_header: Callable[[str], Tuple[List[str], BaseUser]],
+        auth_error_handler: Callable[[Request, AuthenticationError], JSONResponse] = None
+):
     """ Factory method, returning an AuthenticationMiddleware
     Intentionally not named with lower snake case convention as this is a factory method returning a class. Should feel like a class.
 
     Args:
         app (FastAPI): The FastAPI instance the middleware should be applied to. The `add_middleware` function of FastAPI adds the app as first argument by default.
-        verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser
+        verify_authorization_header (Callable[[str], Tuple[List[str], BaseUser]]): A function handle that returns a list of scopes and a BaseUser
+        auth_error_handler (Callable[[Request, Exception], JSONResponse]): Optional error handler for creating responses when an exception was raised in verify_authorization_header
 
     Examples:
         ```python
@@ -89,4 +98,4 @@ def AuthMiddleware(app: FastAPI, verify_authorization_header: callable):
         app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
         ```
     """
-    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_authorization_header))
+    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_authorization_header), on_error=auth_error_handler)
