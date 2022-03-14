@@ -7,7 +7,7 @@ elegant solution to this. But the current solution is to mount multiple apps ins
 **multiple.py**
 
 ```python
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 import uvicorn
 from fastapi import FastAPI
 from starlette.requests import Request
@@ -16,14 +16,14 @@ from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
 
 
 # The method you have to provide
-def verify_authorization_header(auth_header: str) -> Tuple[List[str], FastAPIUser]:
+def verify_header(headers: Dict) -> Tuple[List[str], FastAPIUser]:
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)  # Usually you would decode the JWT here and verify its signature to extract the 'sub'
     scopes = ["admin"]  # You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the 'sub' somewhere
     return scopes, user
 
 
 users_app = FastAPI()
-users_app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)  # Add the middleware with your verification method to the whole application
+users_app.add_middleware(AuthMiddleware, verify_header=verify_header)  # Add the middleware with your verification method to the whole application
 
 
 @users_app.get('/')  # Sample endpoint (secured)

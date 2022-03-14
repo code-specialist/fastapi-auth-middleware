@@ -1,4 +1,4 @@
-from typing import Callable, List
+from typing import Callable, List, Dict
 
 from _pytest.fixtures import fixture
 from fastapi import FastAPI
@@ -11,7 +11,7 @@ from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
 
 
 # Sample verification function, does nothing of effect
-def verify_header(headers: List[str]):
+def verify_header(headers: Dict):
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)
     scopes = ["authenticated"]
     return scopes, user

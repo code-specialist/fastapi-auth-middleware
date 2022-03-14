@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 import uvicorn
 from fastapi import FastAPI
 from starlette.authentication import requires
@@ -8,7 +8,7 @@ from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
 
 
 # The method you have to provide
-def verify_header(headers: List[str]) -> Tuple[List[str], FastAPIUser]:
+def verify_header(headers: Dict) -> Tuple[List[str], FastAPIUser]:
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)  # Usually you would decode the JWT here and verify its signature to extract the 'sub'
     scopes = ["admin"]  # You could for instance use the scopes provided in the JWT or request them by looking up the scopes with the 'sub' somewhere
     return scopes, user
