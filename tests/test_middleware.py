@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, List
 
 from _pytest.fixtures import fixture
 from fastapi import FastAPI
@@ -11,13 +11,13 @@ from fastapi_auth_middleware import AuthMiddleware, FastAPIUser
 
 
 # Sample verification function, does nothing of effect
-def verify_authorization_header_basic(auth_header: str):
+def verify_header(headers: List[str]):
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)
     scopes = ["authenticated"]
     return scopes, user
 
 
-async def verify_authorization_header_basic_admin_scope(auth_header: str):
+async def verify_header_basic_admin_scope(headers: List[str]):
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)
     scopes = ["admin"]
     return scopes, user
@@ -28,9 +28,9 @@ def raise_exception_in_verify_authorization_header(_):
 
 
 #  Sample app with simple routes, takes a verify_authorization_header callable that is applied to the middleware
-def fastapi_app(verify_authorization_header: Callable, auth_error_handler: Callable = None):
+def fastapi_app(verify_header: Callable, auth_error_handler: Callable = None):
     app = FastAPI()
-    app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header, auth_error_handler=auth_error_handler)
+    app.add_middleware(AuthMiddleware, verify_header=verify_header, auth_error_handler=auth_error_handler)
 
     @app.get("/")
     def home():
@@ -57,12 +57,12 @@ class TestBasicBehaviour:
 
     @fixture
     def client(self) -> TestClient:
-        app = fastapi_app(verify_authorization_header_basic)
+        app = fastapi_app(verify_header)
         return TestClient(app)
 
     @fixture
     def client_with_scopes(self) -> TestClient:
-        app = fastapi_app(verify_authorization_header_basic_admin_scope)
+        app = fastapi_app(verify_header_basic_admin_scope)
         return TestClient(app)
 
     def test_home_fail_no_header(self, client: TestClient):
@@ -81,7 +81,7 @@ class TestBasicBehaviour:
         assert client_with_scopes.get("/admin-scope", headers={"Authorization": "ey.."}).status_code == 200  # Contains the requested scope
 
     def test_fail_auth_error(self):
-        app = fastapi_app(verify_authorization_header=raise_exception_in_verify_authorization_header)
+        app = fastapi_app(verify_header=raise_exception_in_verify_authorization_header)
         client_with_auth_error = TestClient(app=app)
 
         response = client_with_auth_error.get('/', headers={"Authorization": "ey.."})
@@ -92,7 +92,7 @@ class TestBasicBehaviour:
             assert isinstance(exception, AuthenticationError)
             return JSONResponse(content={'message': str(exception)}, status_code=401)
 
-        app = fastapi_app(verify_authorization_header=raise_exception_in_verify_authorization_header, auth_error_handler=handle_auth_error)
+        app = fastapi_app(verify_header=raise_exception_in_verify_authorization_header, auth_error_handler=handle_auth_error)
         client_with_auth_error = TestClient(app=app)
 
         response = client_with_auth_error.get('/', headers={"Authorization": "ey.."})

@@ -46,7 +46,7 @@ class FastAPIUser(BaseUser):
 class FastAPIAuthBackend(AuthenticationBackend):
     """ Auth Backend for FastAPI """
 
-    def __init__(self, verify_header: Callable[[str], Tuple[List[str], BaseUser]]):
+    def __init__(self, verify_header: Callable[[List[str]], Tuple[List[str], BaseUser]]):
         """ Auth Backend constructor. Part of an AuthenticationMiddleware as backend.
 
         Args:
