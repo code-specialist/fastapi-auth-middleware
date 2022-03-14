@@ -46,13 +46,13 @@ class FastAPIUser(BaseUser):
 class FastAPIAuthBackend(AuthenticationBackend):
     """ Auth Backend for FastAPI """
 
-    def __init__(self, verify_authorization_header: Callable[[str], Tuple[List[str], BaseUser]]):
+    def __init__(self, verify_header: Callable[[str], Tuple[List[str], BaseUser]]):
         """ Auth Backend constructor. Part of an AuthenticationMiddleware as backend.
 
         Args:
-            verify_authorization_header (callable): A function handle that returns a list of scopes and a BaseUser
+            verify_header (callable): A function handle that returns a list of scopes and a BaseUser
         """
-        self.verify_authorization_header = verify_authorization_header
+        self.verify_header = verify_header
 
     async def authenticate(self, conn: HTTPConnection) -> Tuple[AuthCredentials, BaseUser]:
         """ The 'magic' happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.
@@ -67,11 +67,10 @@ class FastAPIAuthBackend(AuthenticationBackend):
             raise AuthenticationError("Authorization header missing")
 
         try:
-            authorization_header: str = conn.headers["Authorization"]
-            if inspect.iscoroutinefunction(self.verify_authorization_header):
-                scopes, user = await self.verify_authorization_header(authorization_header)
+            if inspect.iscoroutinefunction(self.verify_header):
+                scopes, user = await self.verify_header(conn.headers)
             else:
-                scopes, user = self.verify_authorization_header(authorization_header)
+                scopes, user = self.verify_header(conn.headers)
 
         except Exception as exception:
             raise AuthenticationError(exception) from None
@@ -82,7 +81,7 @@ class FastAPIAuthBackend(AuthenticationBackend):
 # noinspection PyPep8Naming
 def AuthMiddleware(
         app: FastAPI,
-        verify_authorization_header: Callable[[str], Tuple[List[str], BaseUser]],
+        verify_header: Callable[[str], Tuple[List[str], BaseUser]],
         auth_error_handler: Callable[[Request, AuthenticationError], JSONResponse] = None
 ):
     """ Factory method, returning an AuthenticationMiddleware
@@ -90,7 +89,7 @@ def AuthMiddleware(
 
     Args:
         app (FastAPI): The FastAPI instance the middleware should be applied to. The `add_middleware` function of FastAPI adds the app as first argument by default.
-        verify_authorization_header (Callable[[str], Tuple[List[str], BaseUser]]): A function handle that returns a list of scopes and a BaseUser
+        verify_header (Callable[[str], Tuple[List[str], BaseUser]]): A function handle that returns a list of scopes and a BaseUser
         auth_error_handler (Callable[[Request, Exception], JSONResponse]): Optional error handler for creating responses when an exception was raised in verify_authorization_header
 
     Examples:
@@ -104,4 +103,4 @@ def AuthMiddleware(
         app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
         ```
     """
-    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_authorization_header), on_error=auth_error_handler)
+    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_header), on_error=auth_error_handler)
