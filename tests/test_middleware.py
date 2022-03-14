@@ -17,7 +17,7 @@ def verify_authorization_header_basic(auth_header: str):
     return scopes, user
 
 
-def verify_authorization_header_basic_admin_scope(auth_header: str):
+async def verify_authorization_header_basic_admin_scope(auth_header: str):
     user = FastAPIUser(first_name="Code", last_name="Specialist", user_id=1)
     scopes = ["admin"]
     return scopes, user

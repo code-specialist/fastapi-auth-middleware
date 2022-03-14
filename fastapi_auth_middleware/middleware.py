@@ -1,3 +1,4 @@
+import inspect
 from typing import Tuple, Callable, List
 
 from fastapi import FastAPI
@@ -67,13 +68,18 @@ class FastAPIAuthBackend(AuthenticationBackend):
 
         try:
             authorization_header: str = conn.headers["Authorization"]
-            scopes, user = self.verify_authorization_header(authorization_header)
+            if inspect.iscoroutinefunction(self.verify_authorization_header):
+                scopes, user = await self.verify_authorization_header(authorization_header)
+            else:
+                scopes, user = self.verify_authorization_header(authorization_header)
+
         except Exception as exception:
             raise AuthenticationError(exception) from None
 
         return AuthCredentials(scopes=scopes), user
 
 
+# noinspection PyPep8Naming
 def AuthMiddleware(
         app: FastAPI,
         verify_authorization_header: Callable[[str], Tuple[List[str], BaseUser]],
