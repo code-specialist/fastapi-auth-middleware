@@ -46,13 +46,15 @@ class FastAPIUser(BaseUser):
 class FastAPIAuthBackend(AuthenticationBackend):
     """ Auth Backend for FastAPI """
 
-    def __init__(self, verify_header: Callable[[Dict], Tuple[List[str], BaseUser]]):
+    def __init__(self, verify_header: Callable[[Dict], Tuple[List[str], BaseUser]], excluded_urls: List[str] = None):
         """ Auth Backend constructor. Part of an AuthenticationMiddleware as backend.
 
         Args:
             verify_header (callable): A function handle that returns a list of scopes and a BaseUser
+            excluded_urls (List[str]): A list of URL paths (e.g. ['/login', '/contact']) the middleware should not check for user credentials ( == public routes)
         """
         self.verify_header = verify_header
+        self.excluded_urls = [] if excluded_urls is None else excluded_urls
 
     async def authenticate(self, conn: HTTPConnection) -> Tuple[AuthCredentials, BaseUser]:
         """ The 'magic' happens here. The authenticate method is invoked each time a route is called that the middleware is applied to.
@@ -63,6 +65,9 @@ class FastAPIAuthBackend(AuthenticationBackend):
         Returns:
             Tuple[AuthCredentials, BaseUser]: A tuple of AuthCredentials (scopes) and a user object that is or inherits from BaseUser
         """
+        if conn.url.path in self.excluded_urls:
+            return AuthCredentials(scopes=[]), "Unauthenticated User"
+
         if "Authorization" not in conn.headers:
             raise AuthenticationError("Authorization header missing")
 
@@ -82,7 +87,8 @@ class FastAPIAuthBackend(AuthenticationBackend):
 def AuthMiddleware(
         app: FastAPI,
         verify_header: Callable[[str], Tuple[List[str], BaseUser]],
-        auth_error_handler: Callable[[Request, AuthenticationError], JSONResponse] = None
+        auth_error_handler: Callable[[Request, AuthenticationError], JSONResponse] = None,
+        excluded_urls: List[str] = None
 ):
     """ Factory method, returning an AuthenticationMiddleware
     Intentionally not named with lower snake case convention as this is a factory method returning a class. Should feel like a class.
@@ -91,6 +97,7 @@ def AuthMiddleware(
         app (FastAPI): The FastAPI instance the middleware should be applied to. The `add_middleware` function of FastAPI adds the app as first argument by default.
         verify_header (Callable[[str], Tuple[List[str], BaseUser]]): A function handle that returns a list of scopes and a BaseUser
         auth_error_handler (Callable[[Request, Exception], JSONResponse]): Optional error handler for creating responses when an exception was raised in verify_authorization_header
+        excluded_urls (List[str]): A list of URL paths (e.g. ['/login', '/contact']) the middleware should not check for user credentials ( == public routes)
 
     Examples:
         ```python
@@ -103,4 +110,4 @@ def AuthMiddleware(
         app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
         ```
     """
-    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_header), on_error=auth_error_handler)
+    return AuthenticationMiddleware(app, backend=FastAPIAuthBackend(verify_header=verify_header, excluded_urls=excluded_urls), on_error=auth_error_handler)

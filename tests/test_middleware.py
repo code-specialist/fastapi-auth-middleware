@@ -28,9 +28,13 @@ def raise_exception_in_verify_authorization_header(_):
 
 
 #  Sample app with simple routes, takes a verify_authorization_header callable that is applied to the middleware
-def fastapi_app(verify_header: Callable, auth_error_handler: Callable = None):
+def fastapi_app(verify_header: Callable, auth_error_handler: Callable = None, excluded_urls: List[str] = None):
     app = FastAPI()
-    app.add_middleware(AuthMiddleware, verify_header=verify_header, auth_error_handler=auth_error_handler)
+    app.add_middleware(AuthMiddleware, verify_header=verify_header, auth_error_handler=auth_error_handler, excluded_urls=excluded_urls)
+
+    @app.get("/public")
+    def public():
+        return 'Hello Public World'
 
     @app.get("/")
     def home():
@@ -57,7 +61,7 @@ class TestBasicBehaviour:
 
     @fixture
     def client(self) -> TestClient:
-        app = fastapi_app(verify_header)
+        app = fastapi_app(verify_header, excluded_urls=["/public"])
         return TestClient(app)
 
     @fixture
@@ -97,3 +101,12 @@ class TestBasicBehaviour:
 
         response = client_with_auth_error.get('/', headers={"Authorization": "ey.."})
         assert response.status_code == 401
+
+    def test_public_path(self, client):
+        assert client.get("/public").status_code == 200
+
+    def test_public_path_with_fragments(self, client):
+        assert client.get("/public#abcdef").status_code == 200
+
+    def test_public_path_with_query(self, client):
+        assert client.get("/public?abcdef=x").status_code == 200
