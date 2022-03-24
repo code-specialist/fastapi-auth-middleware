@@ -104,3 +104,9 @@ class TestBasicBehaviour:
 
     def test_public_path(self, client):
         assert client.get("/public").status_code == 200
+
+    def test_public_path_with_fragments(self, client):
+        assert client.get("/public#abcdef").status_code == 200
+
+    def test_public_path_with_query(self, client):
+        assert client.get("/public?abcdef=x").status_code == 200
