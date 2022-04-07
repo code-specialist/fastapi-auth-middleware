@@ -69,9 +69,6 @@ class TestBasicBehaviour:
         app = fastapi_app(verify_header_basic_admin_scope)
         return TestClient(app)
 
-    def test_home_fail_no_header(self, client: TestClient):
-        assert client.get("/").status_code == 400
-
     def test_home_succeed(self, client: TestClient):
         assert client.get("/", headers={"Authorization": "ey.."}).status_code == 200
 

@@ -68,9 +68,6 @@ class FastAPIAuthBackend(AuthenticationBackend):
         if conn.url.path in self.excluded_urls:
             return AuthCredentials(scopes=[]), "Unauthenticated User"
 
-        if "Authorization" not in conn.headers:
-            raise AuthenticationError("Authorization header missing")
-
         try:
             if inspect.iscoroutinefunction(self.verify_header):
                 scopes, user = await self.verify_header(conn.headers)
