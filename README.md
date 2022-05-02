@@ -1,5 +1,6 @@
 # FastAPI Auth Middleware
 
+[![PyTest](https://github.com/code-specialist/fastapi-auth-middleware/actions/workflows/testing.yaml/badge.svg)](https://github.com/code-specialist/fastapi-auth-middleware/actions/workflows/testing.yaml)
 [![codecov](https://codecov.io/gh/code-specialist/fastapi-auth-middleware/branch/main/graph/badge.svg?token=JS7C57FCCD)](https://codecov.io/gh/code-specialist/fastapi-auth-middleware)
 ![CodeFactor](https://www.codefactor.io/repository/github/code-specialist/fastapi-auth-middleware/badge)
 ![Py3.7](https://img.shields.io/badge/-Python%203.7-brightgreen)
