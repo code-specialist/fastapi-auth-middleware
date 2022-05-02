@@ -1,23 +1,23 @@
 name: PyTest
+
 on: push
 
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
     strategy:
       matrix:
         python-version: ['3.7', '3.8', '3.9', '3.10']
-    name: Python ${{ matrix.python-version }} sample
+    name: Test-Suite for Python ${{ matrix.python-version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup Python
+      - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
-          python-version: "3.8"
+          python-version: ${{ matrix.python-version }}
 
       - name: Install pip
         run: |
