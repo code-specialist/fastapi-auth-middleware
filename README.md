@@ -61,7 +61,7 @@ from fastapi_auth_middleware import AuthMiddleware
 ...
 
 app = FastAPI()
-app.add_middleware(AuthMiddleware, verify_authorization_header=verify_authorization_header)
+app.add_middleware(AuthMiddleware, verify_header=verify_authorization_header)
 ```
 
 After adding this middleware, all requests will pass the `verify_authorization_header` function and contain the **scopes** as well as the **user object** as injected dependencies.
