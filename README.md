@@ -7,6 +7,7 @@
 ![Py3.8](https://img.shields.io/badge/-Python%203.8-brightgreen)
 ![Py3.9](https://img.shields.io/badge/-Python%203.9-brightgreen)
 ![Py3.10](https://img.shields.io/badge/-Python%203.10-brightgreen)
+![Py3.11](https://img.shields.io/badge/-Python%203.11-brightgreen)
 
 We at [Code Specialist](https://code-specialist.com) love FastAPI for its simplicity and feature-richness. Though we were a bit staggered by the poor documentation and integration
 of auth-concepts. That's why we wrote a **FastAPI Auth Middleware**. It integrates seamlessly into FastAPI applications and requires minimum configuration. It is built
